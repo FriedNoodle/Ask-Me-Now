@@ -8,7 +8,7 @@
 
 import React, { Component } from 'react';
 import { Image } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Fab, Title } from 'native-base';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Fab, Title,List } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { db } from '../config/db';
 import EventList from '../components/EventList';
@@ -20,8 +20,18 @@ export default class EventScreen extends Component {
   constructor(){
     super();
     this.state = {
-      events:[]
-    }
+      events: [],
+      name:null,
+      photo:null,
+      url:'https://firebasestorage.googleapis.com/v0/b/dummy-db-f351b.appspot.com/o/masjid.jpg?alt=media&token=96a32e83-39f7-43d3-b1c0-f13632c1303b',
+      randID:null,
+      chosenDate:new Date(),
+      date:"",
+      location:null,
+      speakerName:null,
+      speakerProfile:null,
+      summary:null
+    };
   }
 
   componentDidMount(){
@@ -45,9 +55,11 @@ export default class EventScreen extends Component {
         <Right />
         </Header>
         
-        <Content>
+        <Content padder>
           
-            <EventList events={this.state.events}></EventList>
+          <EventList events={this.state.events} onPress={(randID,name)=> {Actions.EventDetails({randID:randID,eventName:name})}} />
+          
+            
             
         
           
@@ -59,7 +71,7 @@ export default class EventScreen extends Component {
             containerStyle={{}}
             style= {{backgroundColor:'#5067FF'}}
             position="bottomRight"
-            onPress={ ()=> {Actions.AddEventScreen();}}>
+            onPress={ ()=> {Actions.Test({eventName:"sd",id:"123"});}}>
             <Icon name="calendar" />
           </Fab>
       </Container>

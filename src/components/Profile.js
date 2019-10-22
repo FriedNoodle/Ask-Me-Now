@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { Alert, Image,View, ActivityIndicator, StyleSheet } from 'react-native';
 import { Container, Content, Button, Icon, Text, Form, Item, Label, Input, DatePicker, Footer, FooterTab, Thumbnail, Left, Right } from 'native-base';
-import { addEvent } from '../services/DataService';
+import { updateEvent } from '../services/DataService';
+import { QuestionScreen } from '../screens/QuestionScreen';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import { db,storage } from '../config/db';
+
+let eventRef = db.ref('/events');
 
 var options = {
     title: 'Select Thumbnail',
@@ -54,11 +57,14 @@ var options = {
     })
 }
 
-export default class AddEventScreen extends Component {
+export default class Profile extends Component {
+    
     constructor(){
         super();
+        this._isMounted = false;
         this.pickImage = this.pickImage.bind(this);
         this.state = {
+            events: [],
             name:null,
             photo:null,
             url:'https://firebasestorage.googleapis.com/v0/b/dummy-db-f351b.appspot.com/o/masjid.jpg?alt=media&token=96a32e83-39f7-43d3-b1c0-f13632c1303b',
@@ -74,9 +80,35 @@ export default class AddEventScreen extends Component {
 
         //Convert chosen date to string datatype to store in Database
         this.state.date = this.state.chosenDate.toString().substr(4,12);
-        //Generate random 6 number as ID for the event
-        this.state.randID = Math.floor(100000 + Math.random() * 900000);
-    
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
+        let query = eventRef.orderByChild("randID").equalTo(this.props.eventID);
+        query.once('value', (snapshot) => {
+            let data = snapshot.val();
+            if(data){
+                let firebaseData = Object.values(data);
+                if(this._isMounted){
+                    this.setState({events: firebaseData},()=>{
+                        this.state.events.map((element)=>{
+                            this.setState({
+                                name: element.name,
+                                randID: element.randID,
+                                date: element.date,
+                                speakerName:element.speakerName,
+                                speakerProfile:element.speakerProfile,
+                            });
+                        });
+                    });
+                }
+                
+            }
+        });
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
 
     setName = (value) =>{
@@ -84,7 +116,7 @@ export default class AddEventScreen extends Component {
     }
 
     setDate = (newDate) =>{
-        this.setState({ chosenDate: newDate});
+        this.setState({ date: newDate.toString().substr(4,12)});
     }
     setLocation = (value) =>{
         this.setState({ location: value});
@@ -131,17 +163,17 @@ export default class AddEventScreen extends Component {
     // && this.state.location
    // && this.state.speakerName && this.state.speakerProfile && this.state.summary
    //Empty fields check 
-   saveData = ()=>{
+   updateData = ()=>{
     if(this.state.name && this.state.date){
         //Save input to database
-        addEvent(this.state.name, this.state.randID, this.state.date, this.state.location,
+        updateEvent(this.state.name, this.state.randID, this.state.date, this.state.location,
             this.state.speakerName, this.state.speakerProfile, this.state.summary)
             
         }
         else {
             Alert.alert('Status', 'Empty Field(s)!')
         }
-    }
+}
  
     
     render(){
@@ -149,14 +181,19 @@ export default class AddEventScreen extends Component {
         return(
             <Container>  
                     <Content padder>
-                        <Text style={{textAlign: "center", height: 40, fontWeight: "bold", marginTop: 20}}>Details</Text>
-
                         <Form>
+                        <Item fixedLabel last>
+                            <Label>Event ID</Label>
+                            <Text>{this.state.randID}</Text>
+                            <Input disabled />
+                        </Item>
+                        
                         <Item bordered last style={{padding:5}}>
                             <Label>Event Name</Label>
                             
-                                <Input placeholder='Event name here'
-                                    placeholderTextColor = 'rgb(229, 231, 233)' maxLength={25} onChangeText={this.setName} />
+                                <Input placeholder=''
+                                    placeholderTextColor = 'rgb(229, 231, 233)' maxLength={25} onChangeText={this.setName}
+                                    value={this.state.name} />
                             
                         </Item>
                         <Item bordered last style={{padding:5}}>
@@ -165,7 +202,7 @@ export default class AddEventScreen extends Component {
                             <Button onPress={this.pickImage}>
                                 <Text>Choose Image</Text>
                             </Button>
-                        
+                           
                         </Item>
 
                         <Image
@@ -173,13 +210,7 @@ export default class AddEventScreen extends Component {
                             style={{height: 150, width: null, flex: 1}}
                         />
                        
-                        
-                        
-                        <Item fixedLabel last>
-                            <Label>Event ID</Label>
-                            <Text>{this.state.randID}</Text>
-                            <Input disabled onChangeText={this.setRandID} />
-                        </Item>
+            
                         <Item bordered last>
                             <Label>Event Date</Label>
                             <DatePicker
@@ -198,6 +229,8 @@ export default class AddEventScreen extends Component {
                                 disabled={false}
                                 />
 
+                            <Text>{this.state.date}</Text>
+
                             
                         </Item>
 
@@ -205,7 +238,8 @@ export default class AddEventScreen extends Component {
                         <Item fixedLabel last style={{padding:5}}>
 
                             <Label>Speaker's Name</Label>
-                            <Input onChangeText={this.setSpeakerName} />
+                            <Input onChangeText={this.setSpeakerName}
+                                value={this.state.speakerName} />
                                             
 
                         </Item>
@@ -213,14 +247,15 @@ export default class AddEventScreen extends Component {
                         <Item fixedLabel last>
 
                             <Label>Speaker's Profile</Label>
-                            <Input onChangeText={this.setSpeakerProfile} />     
+                            <Input onChangeText={this.setSpeakerProfile}
+                                value={this.state.speakerProfile} />     
                         </Item>
 
                         </Form>
+                        
+                            <Button block last style={{marginTop: 50}} onPress={this.updateData} >
 
-                            <Button block last style={{marginTop: 50}} onPress={this.saveData} >
-
-                            <Text style={{fontWeight: "bold"}}>Save</Text>
+                            <Text style={{fontWeight: "bold"}}>Update</Text>
 
                             </Button>
                             
