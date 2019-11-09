@@ -2,39 +2,28 @@ import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { ImageBackground } from 'react-native';
 import { Container, Content, Text, Grid, Row, Col, List, ListItem, Icon, Left, Button, Body } from "native-base";
-import { app } from '../config/db';
 
 
-export default class SideBar extends Component {
+export default class GuestSideBar extends Component {
 
-  constructor(props){
-    super(props);
-    this.state = {
-        currentUser: null
-    } 
-  }
 
-  componentDidMount(){
-    const { currentUser } = app.auth();
-    this.setState({ currentUser })
-  }
   
   render(){
-    const { currentUser } = this.state;
+    
       return(
           <Container>
                 <Grid>
                   <Row size={12}><ImageBackground source={require('../../images/sidebar-bg.jpg')} style={{width:'100%', height:'100%'}}>
-                    <Text style={{color:'white',margin:50, }}>{currentUser && currentUser.email}</Text></ImageBackground></Row>
+                    </ImageBackground></Row>
                   <Row size={50}>
                     <List>
                     <ListItem style={{borderBottomWidth:0}}>
   
-                        <Button block transparent onPress={()=>Actions.EventScreen()}><Icon name='md-person' /><Text>Profile</Text></Button>
+                        <Button block transparent onPress={()=>Actions.JoinEventScreen()}><Icon name='md-swap' /><Text>Switch Event</Text></Button>
        
                     </ListItem>
                     <ListItem style={{borderBottomWidth:0}}>
-                    <Button block transparent onPress={()=>app.auth().signOut()}><Icon name='md-power' /><Text>Sign Out</Text></Button>
+                    <Button block transparent onPress={()=>Actions.Loading()}><Icon name='md-contact' /><Text>Admin Login</Text></Button>
                     </ListItem>
                     </List>
                     

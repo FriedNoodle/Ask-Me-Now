@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Alert, Image,View, ActivityIndicator, StyleSheet } from 'react-native';
-import { Container, Content, Button, Icon, Text, Form, Item, Label, Input, DatePicker, Footer, FooterTab, Thumbnail, Left, Right } from 'native-base';
+import { Alert, Image} from 'react-native';
+import { Container, Content, Button, Icon, Text, Form, Item, Label, Input, DatePicker, Thumbnail, Left, Right, Card, CardItem, Body} from 'native-base';
 import { updateEvent } from '../services/DataService';
-import { QuestionScreen } from '../screens/QuestionScreen';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import { db,storage } from '../config/db';
@@ -181,79 +180,91 @@ export default class Profile extends Component {
         return(
             <Container>  
                     <Content padder>
-                        <Form>
-                        <Item fixedLabel last>
+                        <Card>
+                            <CardItem style={{ backgroundColor:'#e6e6e6'}}>
+                                <Body>
+                                <Item style={{borderColor:'transparent'}}fixedLabel last>
+                                <Icon name="md-finger-print" />
                             <Label>Event ID</Label>
                             <Text>{this.state.randID}</Text>
-                            <Input disabled />
-                        </Item>
-                        
-                        <Item bordered last style={{padding:5}}>
-                            <Label>Event Name</Label>
-                            
-                                <Input placeholder=''
-                                    placeholderTextColor = 'rgb(229, 231, 233)' maxLength={25} onChangeText={this.setName}
-                                    value={this.state.name} />
                             
                         </Item>
-                        <Item bordered last style={{padding:5}}>
-                            <Label>Thumbnail</Label>
-                            <Left />
-                            <Button onPress={this.pickImage}>
-                                <Text>Choose Image</Text>
-                            </Button>
-                           
-                        </Item>
+                                </Body>
+                            </CardItem>
+                        </Card>
 
-                        <Image
-                            source={{uri: this.state.url}}
-                            style={{height: 150, width: null, flex: 1}}
+                        
+                        <Form>
+                
+                        
+                <Item bordered last style={{padding:5}}>
+                    <Label>Event Name</Label>
+                    
+                        <Input placeholder=''
+                            placeholderTextColor = 'rgb(229, 231, 233)' maxLength={25} onChangeText={this.setName}
+                            value={this.state.name} />
+                    
+                </Item>
+                <Item bordered last style={{padding:5}}>
+                    <Label>Thumbnail</Label>
+                    <Left />
+                    <Button iconLeft onPress={this.pickImage}>
+                        <Icon name="md-image" />
+                        <Text>Choose Image</Text>
+                    </Button>
+                   
+                </Item>
+
+                <Image
+                    source={{uri: this.state.url}}
+                    style={{height: 150, width: null, flex: 1}}
+                />
+               
+    
+                <Item bordered last>
+                    <Label>Event Date</Label>
+                    <DatePicker
+                        defaultDate={new Date()}
+                        minimumDate={new Date()}
+                        maximumDate={new Date(2020, 12, 31)}
+                        locale={"en"}
+                        timeZoneOffsetInMinutes={undefined}
+                        modalTransparent={false}
+                        animationType={"fade"}
+                        androidMode={"default"}
+                        placeHolderText="Select date"
+                        textStyle={{ color: "green" }}
+                        placeHolderTextStyle={{ color: "#d3d3d3" }}
+                        onDateChange={this.setDate}
+                        disabled={false}
                         />
-                       
-            
-                        <Item bordered last>
-                            <Label>Event Date</Label>
-                            <DatePicker
-                                defaultDate={new Date()}
-                                minimumDate={new Date()}
-                                maximumDate={new Date(2020, 12, 31)}
-                                locale={"en"}
-                                timeZoneOffsetInMinutes={undefined}
-                                modalTransparent={false}
-                                animationType={"fade"}
-                                androidMode={"default"}
-                                placeHolderText="Select date"
-                                textStyle={{ color: "green" }}
-                                placeHolderTextStyle={{ color: "#d3d3d3" }}
-                                onDateChange={this.setDate}
-                                disabled={false}
-                                />
 
-                            <Text>{this.state.date}</Text>
+                    <Text>{this.state.date}</Text>
 
-                            
-                        </Item>
+                    
+                </Item>
 
-                        
-                        <Item fixedLabel last style={{padding:5}}>
+                
+                <Item fixedLabel last style={{padding:5}}>
 
-                            <Label>Speaker's Name</Label>
-                            <Input onChangeText={this.setSpeakerName}
-                                value={this.state.speakerName} />
-                                            
+                    <Label>Speaker's Name</Label>
+                    <Input onChangeText={this.setSpeakerName}
+                        value={this.state.speakerName} />
+                                    
 
-                        </Item>
+                </Item>
 
-                        <Item fixedLabel last>
+                <Item fixedLabel last>
 
-                            <Label>Speaker's Profile</Label>
-                            <Input onChangeText={this.setSpeakerProfile}
-                                value={this.state.speakerProfile} />     
-                        </Item>
+                    <Label>Speaker's Profile</Label>
+                    <Input onChangeText={this.setSpeakerProfile}
+                        value={this.state.speakerProfile} />     
+                </Item>
 
-                        </Form>
-                        
-                            <Button block last style={{marginTop: 50}} onPress={this.updateData} >
+                </Form>
+
+                            <Button iconLeft block last style={{marginTop: 50}} onPress={this.updateData} >
+                                <Icon name="md-create" />
 
                             <Text style={{fontWeight: "bold"}}>Update</Text>
 
@@ -262,23 +273,6 @@ export default class Profile extends Component {
 
         </Content>
 
-
-
-        <Footer>
-
-          <FooterTab>
-
-          <Button vertical onPress={() => {Actions.EventScreen();}}>
-
-              <Icon name="home" />
-
-              <Text>Home</Text>
-
-            </Button>
-
-          </FooterTab>
-
-        </Footer>
                 </Container>
         )
     }

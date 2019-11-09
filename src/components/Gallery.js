@@ -5,7 +5,7 @@ export default class CardExample extends Component {
     return (
       <Container>
         
-        <Content>
+        <Content padder>
           <Card>
             <CardItem>
               <Body>

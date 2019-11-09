@@ -5,7 +5,7 @@ import { Container, Content, Button, Icon, Text, Form, Item, Label, Input, DateP
 import { addEvent } from '../services/DataService';
 import ImagePicker from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
-import { db,storage } from '../config/db';
+import { app,db,storage } from '../config/db';
 
 var options = {
     title: 'Select Thumbnail',
@@ -59,6 +59,8 @@ export default class AddEventScreen extends Component {
         super();
         this.pickImage = this.pickImage.bind(this);
         this.state = {
+            currentUser:null,
+            userID:null,
             name:null,
             photo:null,
             url:'https://firebasestorage.googleapis.com/v0/b/dummy-db-f351b.appspot.com/o/masjid.jpg?alt=media&token=96a32e83-39f7-43d3-b1c0-f13632c1303b',
@@ -76,7 +78,14 @@ export default class AddEventScreen extends Component {
         this.state.date = this.state.chosenDate.toString().substr(4,12);
         //Generate random 6 number as ID for the event
         this.state.randID = Math.floor(100000 + Math.random() * 900000);
+        
     
+    }
+
+    componentDidMount(){
+        const { currentUser } = app.auth();
+        this.setState({currentUser});
+        this.state.userID = currentUser.uid;
     }
 
     setName = (value) =>{
@@ -85,6 +94,11 @@ export default class AddEventScreen extends Component {
 
     setDate = (newDate) =>{
         this.setState({ chosenDate: newDate});
+    }
+
+    setUserID = (value) =>{
+        this.setState({userID: value});
+
     }
     setLocation = (value) =>{
         this.setState({ location: value});
@@ -134,7 +148,7 @@ export default class AddEventScreen extends Component {
    saveData = ()=>{
     if(this.state.name && this.state.date){
         //Save input to database
-        addEvent(this.state.name, this.state.randID, this.state.date, this.state.location,
+        addEvent(this.state.name, this.state.randID, this.state.date, this.state.userID, this.state.location,
             this.state.speakerName, this.state.speakerProfile, this.state.summary)
             
         }
@@ -145,7 +159,6 @@ export default class AddEventScreen extends Component {
  
     
     render(){
-        
         return(
             <Container>  
                     <Content padder>
@@ -162,7 +175,8 @@ export default class AddEventScreen extends Component {
                         <Item bordered last style={{padding:5}}>
                             <Label>Thumbnail</Label>
                             <Left />
-                            <Button onPress={this.pickImage}>
+                            <Button iconLeft onPress={this.pickImage}>
+                                <Icon name="md-image" />
                                 <Text>Choose Image</Text>
                             </Button>
                         

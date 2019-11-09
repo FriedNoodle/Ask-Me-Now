@@ -11,11 +11,12 @@ import { Actions } from 'react-native-router-flux';
 
 
 /**Function to add new event to database */
-export const addEvent = (name, randID, date,location,speakerName,speakerProfile, summary) =>{
+export const addEvent = (name, randID, date, userID, location,speakerName,speakerProfile, summary) =>{
     db.ref('/events').child(randID).set({
         name:name,
         randID:randID,
         date:date,
+        userID:userID,
         location:location,
         speakerName:speakerName,
         speakerProfile:speakerProfile,

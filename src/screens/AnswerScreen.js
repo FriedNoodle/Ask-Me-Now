@@ -64,7 +64,9 @@ export default class AnswerScreen extends Component{
         const name = this.props.eventName;
         return(
             <Container>
-                <Header>
+                <Header 
+                    androidStatusBarColor="#2f8c9c"
+                    style= {{backgroundColor:'#3297a8'}}>
                     <Left>
                         <Button transparent onPress={()=> Actions.pop()}>
                             <Icon name='arrow-back' />
@@ -85,7 +87,7 @@ export default class AnswerScreen extends Component{
                     </Card>
                    
                     <Form>
-                        <Textarea rowSpan={5} bordered placeholder="Post your answer here"
+                        <Textarea rowSpan={5} bordered placeholder="Type your answer"
                             value={this.state.answer}
                             onChangeText={this.setAnswer} />
                     </Form>
