@@ -1,15 +1,46 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
-import { Container, Header, Content, Body, Text, Left, Right, Title, Grid, Row, Col,Form, Label, Item, Input, Icon, Button, ActionSheet, Root} from 'native-base';
+import { Alert , View, StyleSheet, PermissionsAndroid} from 'react-native';
+import { Container, Header, Content, Body, Text, Left, Right,
+        Card, CardItem, Title, Grid, Row, Col,Form, Label, Item, Input, Icon, Button, ActionSheet, Root} from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { db } from '../config/db';
+import MapView, { Marker, Callout, Overlay } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
 
 let eventRef = db.ref('/events');
+let markerRef = db.ref('/users');
 
 //Var for ActionSheets
 var BUTTONS = ["Admin Login","Cancel"];
 var CANCEL_INDEX = 1;
 
+
+async function requestLocationPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Ask Me Now Location Permission',
+        message:
+        'Ask Me Now needs access to your device location' +
+        'so you can find nearby mosques.',
+        buttonNegative:'Cancel',
+        buttonPositive: 'OK'
+      },      
+    );
+
+    if (granted === PermissionsAndroid.RESULTS.GRANTED){
+      console.log('You can use the device location');
+    }
+    else {
+      console.log('Device location permission denied');
+    }
+  }
+  catch (err){
+    console.warn(err);
+  }
+}
 export default class JoinEventScreen extends Component {
   constructor(props){
     super(props);
@@ -17,18 +48,57 @@ export default class JoinEventScreen extends Component {
       events: [],
       name:null,
       randID:null,
-      joinID:null
+      joinID:null,
+      mapRegion:null,
+      gpsAccuracy:null,
+      markers:[]
     };
     
     
     this.joinEvent = this.joinEvent.bind(this);
   }
   
+  async componentDidMount(){
+    await requestLocationPermission();
+    this.watchID = Geolocation.getCurrentPosition((position)=>{
+      let region = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0.00922*1.5,
+        longitudeDelta: 0.00421*1.5
+      }
+
+      this.onRegionChange(region,position.coords.accuracy);
+    },
+    (error)=>{
+      console.log(error);
+      Alert.alert('Warning!','Please enable location services!')
+    }),
+    markerRef.on('value', (snapshot) => {
+      let data = snapshot.val();
+      if(data){
+          let firebaseData = Object.values(data);
+          this.setState({markers: firebaseData});
+      }
+  });
+  }
+
+  componentWillUnmount(){
+    Geolocation.clearWatch(this.watchID);
+  }
+
+  onRegionChange = (region, gpsAccuracy)=>{
+    this.setState({
+      mapRegion: region,
+      gpsAccuracy: gpsAccuracy
+    });
+  }
 
   joinEvent(){
-    let query = eventRef.orderByChild("randID").equalTo(parseInt(this.state.joinID))
-    query.once('value', (snapshot)=>{
-      //let data = snapshot.val();
+
+    if(this.state.joinID){
+      let query = eventRef.orderByChild("randID").equalTo(parseInt(this.state.joinID))
+      query.once('value', (snapshot)=>{
       if(snapshot.exists()){
         let userData = snapshot.val();
         let firebaseData = Object.values(userData);
@@ -46,10 +116,15 @@ export default class JoinEventScreen extends Component {
         console.log(this.state.randID)
       }
       else {
-        Alert.alert("There is no such event")
+        Alert.alert('Sorry!', 'There is no such active event right now')
         
       }
     })
+    }
+    else {
+      Alert.alert('Error!','Please enter a valid 6 digit event ID')
+    }
+    
   }
 
   setRandID = (value) =>{
@@ -65,7 +140,7 @@ export default class JoinEventScreen extends Component {
           style= {{backgroundColor:'#3297a8'}}>
         <Left />
         <Body>
-          <Title style={{fontSize:16}}>Events near Me</Title>
+          <Title style={{fontSize:16}}>Mosque near Me</Title>
         </Body>
         <Right>
           <Button transparent onPress={()=> ActionSheet.show(
@@ -87,26 +162,93 @@ export default class JoinEventScreen extends Component {
         </Header>
         
         
-          <Grid>
-            <Row size={70} style={{ backgroundColor: '#635DB7'}}></Row>
-            <Row size={30}>
-              <Content padder>
-              <Col size={10}></Col>
-              <Col size={80}>
-              <Form>
+        
+           
+            <View style={styles.container}>
+            <MapView.Animated
               
-              <Item rounded>
-              <Icon name='md-finger-print' /><Input placeholder='enter event ID here' keyboardType='numeric' maxLength={6} onChangeText={this.setRandID}></Input><Button icon transparent onPress={this.joinEvent}>
-                  <Icon name='md-arrow-round-forward' />
-                </Button></Item>
-              
-             
+              style={styles.map}
+              initialRegion={this.state.mapRegion}
+              onRegionChange={this.onRegionChange.bind(this)}
+              loadingEnabled = {true}
+              loadingIndicatorColor="#666666"
+              loadingBackgroundColor="#eeeeee"
+              moveOnMarkerPress = {false}
+              showsUserLocation={true}
+              showsCompass={true}
+              followsUserLocation={true}
+              showsMyLocationButton={true}
+              toolbarEnabled={true}
+              showsPointsOfInterest = {false}
+            >
+              {this.state.markers.map((marker,index)=>{
+                if(marker.coordinates.latitude){
+                  return (<MapView.Marker key={index}
+                  coordinate={{latitude:marker.coordinates.latitude,longitude:marker.coordinates.longitude}}
+                  title={marker.name}
+                  >
+                  
+                  
+                </MapView.Marker>
+                )
+                }
+                
+              })}
+                
+            
+            </MapView.Animated>
+          </View>
+     
+            <Overlay
+              style={{position:'absolute',bottom:10, width:'100%'}}>
+                
+                <Content padder>
+              <Card transparent style={{borderRadius:15,
+                    marginBottom:-10,
+                    paddingTop:-15}}>
+                
+                <CardItem style={{borderTopLeftRadius:15,
+                                  borderTopRightRadius:15,
+                                  borderBottomLeftRadius:15,
+                                  borderBottomRightRadius:15,
+                                  }}>
+                <Form>
+                  <Grid>
+                    <Col size={10}></Col>
+                    <Col size={80}>
+                    <CardItem><Text style={{color:'green',textAlign:'center'}}>Want to join an event?</Text></CardItem>
+                    </Col>
+                    <Col size={10}></Col>
+                  </Grid>
+                  
+                  <CardItem style={{borderBottomLeftRadius:15,
+                                    borderBottomRightRadius:15,
+                                    paddingTop:-15,
+                                    paddingBottom:-15}}>
+                    <Item rounded style={{backgroundColor:'white'}}>
+                    <Icon name='md-finger-print' /><Input placeholder='enter event ID here'
+                          keyboardType='numeric'
+                          maxLength={6}
+                          onChangeText={this.setRandID}></Input>
+                          <Item style={{borderColor:'transparent'}}>
+                            <Button icon
+                                    transparent
+                                    onPress={this.joinEvent}>
+                              <Icon name='md-arrow-round-forward'/>
+                            </Button>
+                          </Item>
+                          </Item> 
+                  </CardItem>
               </Form>
-              </Col>
-              <Col size={10}></Col>
+                </CardItem>
+              </Card>
+
               </Content>
-            </Row>
-          </Grid>
+              </Overlay>
+            
+              
+            
+       
           
        
       </Container>
@@ -115,3 +257,15 @@ export default class JoinEventScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  map: {
+    
+    ...StyleSheet.absoluteFillObject,
+  },
+ });

@@ -21,6 +21,7 @@ import Loading from './src/screens/Loading';
 import SignUp from './src/screens/SignUp';
 import Test from './src/screens/Test';
 import AddQuestion from './src/screens/AddQuestion';
+import UserProfile from './src/screens/Profile';
 
 export default class App extends Component {
 
@@ -38,6 +39,7 @@ export default class App extends Component {
         <Scene key="AddEventScreen" component={AddEventScreen} hideNavBar={true} />
         <Scene key="EventDetails" component={EventDetails} hideNavBar={true} />
         <Scene key="Profile" component={Profile} hideNavBar={true} />
+        <Scene key="UserProfile" component={UserProfile} hideNavBar={true} />
         <Scene key="QuestionScreen" component={QuestionScreen} hideNavBar={true} />
         <Scene key="GuestScreen" component={GuestScreen} hideNavBar={true}  />
         <Scene key="AnswerScreen" component={AnswerScreen} hideNavBar={true}  />

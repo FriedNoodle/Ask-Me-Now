@@ -30,7 +30,7 @@ export default class SideBar extends Component {
                     <List>
                     <ListItem style={{borderBottomWidth:0}}>
   
-                        <Button block transparent onPress={()=>Actions.EventScreen()}><Icon name='md-person' /><Text>Profile</Text></Button>
+                        <Button block transparent onPress={()=>Actions.UserProfile()}><Icon name='md-person' /><Text>Profile</Text></Button>
        
                     </ListItem>
                     <ListItem style={{borderBottomWidth:0}}>

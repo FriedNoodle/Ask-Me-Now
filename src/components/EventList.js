@@ -23,11 +23,11 @@ export default class EventList extends Component {
                     <TouchableOpacity key={index}
                      onPress={()=> this.onPress(data.randID,data.name)}
                      activeOpacity={.7}>
-                        <Card>
-                        <CardItem cardBody>
-                            <Image source={require('../../images/masjid.jpg')} style={{height: 180, width: null, flex:1}}/>
+                        <Card style={{borderRadius:10}}>
+                        <CardItem cardBody style={{borderTopLeftRadius:10,borderTopRightRadius:10}}>
+                            <Image source={require('../../images/masjid.jpg')} style={{height: 180, width: null, flex:1, borderTopLeftRadius:10,borderTopRightRadius:10}}/>
                         </CardItem>
-                        <CardItem>
+                        <CardItem style={{borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
                         <Left>
                             <Thumbnail source={require('../../images/event-icon.png')} />
                             <Body>
