@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Header, Text, Tab, Tabs, Body, Left, Button, Title, TabHeading, Icon, ScrollableTab } from 'native-base';
-import Profile from '../components/Profile';
+import ViewDetails from '../components/ViewDetails';
 import Gallery from '../components/Gallery';
-import AdminGallery from '../components/AdminGallery'
-import QuestionScreen from '../screens/QuestionScreen';
-import {Actions} from 'react-native-router-flux';
+import GuestQuest from '../screens/GuestQuestScreen';
+import { Actions } from 'react-native-router-flux';
 
-export default class EventDetails extends Component {
+export default class GuestViewEvent extends Component {
 
  
     render(){
@@ -31,14 +30,14 @@ export default class EventDetails extends Component {
                     <Tabs initialPage={
                         0} renderTabBar={()=> <ScrollableTab />}>
                         <Tab heading={<TabHeading style= {{backgroundColor:'#3297a8'}}><Icon name="md-calendar"/><Text>Details</Text></TabHeading>}>
-                            <Profile eventID={eventID} />
+                            <ViewDetails eventID={eventID} />
                             
                         </Tab>
                         <Tab heading={<TabHeading style= {{backgroundColor:'#3297a8'}}><Icon name="md-images"/><Text>Gallery</Text></TabHeading>}>
-                            <AdminGallery eventID={eventID}/>
+                            <Gallery eventID={eventID}/>
                         </Tab>
                         <Tab heading={<TabHeading style= {{backgroundColor:'#3297a8'}}><Icon name="md-chatboxes"/><Text>Questions and Answers</Text></TabHeading>}>
-                            <QuestionScreen eventID={eventID} eventName={eventName}/>
+                            <GuestQuest eventID={eventID} eventName={eventName}/>
                         </Tab>
                     </Tabs>
                 </Container>

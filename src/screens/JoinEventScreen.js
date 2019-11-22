@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Alert , View, StyleSheet, PermissionsAndroid} from 'react-native';
+import { Alert , View, StyleSheet, PermissionsAndroid, Image} from 'react-native';
 import { Container, Header, Content, Body, Text, Left, Right,
         Card, CardItem, Title, Grid, Row, Col,Form, Label, Item, Input, Icon, Button, ActionSheet, Root} from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { db } from '../config/db';
 import MapView, { Marker, Callout, Overlay } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
-import Geocoder from 'react-native-geocoding';
 
 let eventRef = db.ref('/events');
 let markerRef = db.ref('/users');
@@ -14,7 +13,6 @@ let markerRef = db.ref('/users');
 //Var for ActionSheets
 var BUTTONS = ["Admin Login","Cancel"];
 var CANCEL_INDEX = 1;
-
 
 async function requestLocationPermission() {
   try {
@@ -50,8 +48,11 @@ export default class JoinEventScreen extends Component {
       randID:null,
       joinID:null,
       mapRegion:null,
+      initialLocation:null,
       gpsAccuracy:null,
-      markers:[]
+      tracksViewChanges:true,
+      markers:[],
+      tracksViewChanges:true
     };
     
     
@@ -59,6 +60,7 @@ export default class JoinEventScreen extends Component {
   }
   
   async componentDidMount(){
+    
     await requestLocationPermission();
     this.watchID = Geolocation.getCurrentPosition((position)=>{
       let region = {
@@ -68,7 +70,9 @@ export default class JoinEventScreen extends Component {
         longitudeDelta: 0.00421*1.5
       }
 
-      this.onRegionChange(region,position.coords.accuracy);
+      this.onRegionChange(region,position.coords.accuracy)
+      this.setInitialLocation(region);
+      
     },
     (error)=>{
       console.log(error);
@@ -83,8 +87,21 @@ export default class JoinEventScreen extends Component {
   });
   }
 
+  setInitialLocation(region){
+    this.setState({
+      initialLocation:region
+    })
+  }
+
   componentWillUnmount(){
     Geolocation.clearWatch(this.watchID);
+  }
+
+  //Map Marker Optimization. (Track changes to marker pins)
+  stopTrackingChanges = () => {
+    this.setState(()=> ({
+      tracksViewChanges:false
+    }));
   }
 
   onRegionChange = (region, gpsAccuracy)=>{
@@ -133,6 +150,7 @@ export default class JoinEventScreen extends Component {
   }
 
   render() {
+    const { tracksViewChanges } = this.state;
     return (
       <Root>
         <Container>
@@ -182,11 +200,18 @@ export default class JoinEventScreen extends Component {
               showsPointsOfInterest = {false}
             >
               {this.state.markers.map((marker,index)=>{
-                if(marker.coordinates.latitude){
+                
+                if(marker.latitude){
                   return (<MapView.Marker key={index}
-                  coordinate={{latitude:marker.coordinates.latitude,longitude:marker.coordinates.longitude}}
-                  title={marker.name}
+                  coordinate={{latitude:marker.latitude,longitude:marker.longitude}}
                   >
+                    <MapView.Callout
+                      onPress={()=>Actions.MosqueEvent({userID:marker.userID,mosqueName:marker.name})}>
+                      <Card style={{width:200}}>
+                        <CardItem header style={{paddingBottom:-20}}><Text style={{fontSize:11, color:'blue'}}>{marker.name}</Text></CardItem>
+                        <CardItem><Text style={{fontSize:11}}>Press to view events.</Text></CardItem>
+                      </Card>
+                    </MapView.Callout>
                   
                   
                 </MapView.Marker>

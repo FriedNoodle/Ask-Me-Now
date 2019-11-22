@@ -25,7 +25,7 @@ export default class EventList extends Component {
                      activeOpacity={.7}>
                         <Card style={{borderRadius:10}}>
                         <CardItem cardBody style={{borderTopLeftRadius:10,borderTopRightRadius:10}}>
-                            <Image source={require('../../images/masjid.jpg')} style={{height: 180, width: null, flex:1, borderTopLeftRadius:10,borderTopRightRadius:10}}/>
+                            <Image source={{uri:data.url}} style={{height: 180, width: null, flex:1, borderTopLeftRadius:10,borderTopRightRadius:10}}/>
                         </CardItem>
                         <CardItem style={{borderBottomLeftRadius:10, borderBottomRightRadius:10}}>
                         <Left>

@@ -42,12 +42,14 @@ export default class LoginScreen extends Component {
                     
                     <Item><Text>{this.state.errorMessage && <Text>{this.state.errorMessage}</Text>}</Text></Item>
                     <Item last>
-                        <Icon name="md-mail" />
-                        <Input placeholder="Email" onChangeText={email=>this.setState({email})} />
+                        <Icon name="md-mail" style={{paddingRight:2}}/>
+                        <Input placeholder="Email"
+                              onChangeText={email=>this.setState({email})} />
                     </Item>
                     <Item last>
                         <Icon name="md-lock" />
-                        <Input placeholder="Password" secureTextEntry={true} onChangeText={password=> this.setState({password})}/>
+                        <Input placeholder="Password" secureTextEntry={true}
+                           onChangeText={password=> this.setState({password})}/>
                     </Item>
                     <Button transparent style={{marginTop: 10, alignSelf:'center'}} onPress={this.handleLogin} >
 

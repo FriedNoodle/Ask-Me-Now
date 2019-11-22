@@ -22,7 +22,7 @@ export default class GuestQuestionList extends Component {
                 return(
 
               
-                        <Card key={index}>
+                        <Card key={index} style={{padding:5, borderRadius:10}}>
 
                         <CardItem>
                             <Text>{data.ques} </Text>

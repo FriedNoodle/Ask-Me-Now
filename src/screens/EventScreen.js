@@ -7,8 +7,8 @@
  */
 
 import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Fab, Title,List, Drawer } from 'native-base';
+import { Image, Alert } from 'react-native';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right, Fab, Title,List, Drawer, Root, Toast } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { app, db } from '../config/db';
 import EventList from '../components/EventList';
@@ -26,14 +26,15 @@ export default class EventScreen extends Component {
       currentUser:null,
       name:null,
       photo:null,
-      url:'https://firebasestorage.googleapis.com/v0/b/dummy-db-f351b.appspot.com/o/masjid.jpg?alt=media&token=96a32e83-39f7-43d3-b1c0-f13632c1303b',
+      url:null,
       randID:null,
       chosenDate:new Date(),
       date:"",
       location:null,
       speakerName:null,
       speakerProfile:null,
-      summary:null
+      summary:null,
+      showToast:false
     };
   }
 
@@ -67,7 +68,8 @@ export default class EventScreen extends Component {
 
     return (
 
-      <Drawer
+      <Root>
+        <Drawer
         ref={(ref) => {this.drawer = ref; }}
         content={<SideBar navigator={this.navigator} />}
         onClose={()=>this.closeDrawer()} >
@@ -80,9 +82,9 @@ export default class EventScreen extends Component {
         </Left>
         
         <Body>
-          <Title>Event Lists</Title>
+          <Title style={{fontSize:16}}>Event Lists</Title>
         </Body>
-        <Right />
+        
         </Header>
         
         <Content padder>  
@@ -100,6 +102,9 @@ export default class EventScreen extends Component {
           </Fab>
       </Container>
       </Drawer>
-    );
+      </Root>
+
+      
+    )
   }
 }

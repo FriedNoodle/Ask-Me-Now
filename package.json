@@ -12,14 +12,19 @@
     "@react-native-community/geolocation": "^2.0.2",
     "core-js": "^3.2.1",
     "firebase": "^7.0.0",
+    "geolib": "^3.1.0",
+    "mem": "^6.0.0",
     "native-base": "^2.13.8",
     "react": "16.8.1",
     "react-native": "0.61.1",
-    "react-native-geocoding": "^0.4.0",
-    "react-native-image-picker": "^1.1.0",
+    "react-native-geocoder-reborn": "^0.8.3",
+    "react-native-image-crop-picker": "^0.26.1",
+    "react-native-image-zoom-viewer": "^2.2.27",
     "react-native-maps": "0.26.1",
     "react-native-router-flux": "^4.0.6",
-    "rn-fetch-blob": "^0.11.2"
+    "react-native-super-grid": "^3.1.1",
+    "rn-fetch-blob": "^0.11.2",
+    "yargs": "^15.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",

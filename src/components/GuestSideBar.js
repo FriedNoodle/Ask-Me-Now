@@ -23,7 +23,7 @@ export default class GuestSideBar extends Component {
        
                     </ListItem>
                     <ListItem style={{borderBottomWidth:0}}>
-                    <Button block transparent onPress={()=>Actions.Loading()}><Icon name='md-contact' /><Text>Admin Login</Text></Button>
+                    <Button block transparent onPress={()=>Actions.LoginScreen()}><Icon name='md-contact' /><Text>Admin Login</Text></Button>
                     </ListItem>
                     </List>
                     

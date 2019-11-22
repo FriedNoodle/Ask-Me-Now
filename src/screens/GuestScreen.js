@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Text, Tab, Tabs, Body, Left, Drawer, Button, Title, TabHeading, Icon, ScrollableTab, Fab } from 'native-base';
-import Profile from '../components/Profile';
+import ViewDetails from '../components/ViewDetails';
 import Gallery from '../components/Gallery';
 import GuestQuestScreen from '../screens/GuestQuestScreen';
 import { Actions } from 'react-native-router-flux';
@@ -43,14 +43,16 @@ export default class GuestScreen extends Component {
                     <Tabs 
                         initialPage={
                         0} renderTabBar={()=> <ScrollableTab />}>
-                        <Tab heading={<TabHeading style={{backgroundColor:'#3297a8'}}><Icon name="md-chatboxes"/><Text>Questions and Answers</Text></TabHeading>}>
-                            <GuestQuestScreen eventID={eventID}/>
+
+                        <Tab heading={<TabHeading style={{backgroundColor:'#3297a8'}}><Icon name="md-images"/><Text>Details</Text></TabHeading>}>
+                            <ViewDetails eventID={eventID}/>
                         </Tab>
-                       
                         <Tab heading={<TabHeading style={{backgroundColor:'#3297a8'}}><Icon name="md-images"/><Text>Gallery</Text></TabHeading>}>
                             <Gallery eventID={eventID}/>
                         </Tab>
-                        
+                        <Tab heading={<TabHeading style={{backgroundColor:'#3297a8'}}><Icon name="md-chatboxes"/><Text>Questions and Answers</Text></TabHeading>}>
+                            <GuestQuestScreen eventID={eventID}/>
+                        </Tab>                      
                     </Tabs>
 
                     <Fab

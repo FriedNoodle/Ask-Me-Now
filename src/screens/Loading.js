@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Alert } from 'react-native';
 import { Container, Content, Spinner, Text } from 'native-base'
 import { app } from '.././config/db';
 import { Actions } from 'react-native-router-flux';
@@ -6,14 +7,21 @@ import { Actions } from 'react-native-router-flux';
 export default class Loading extends Component {
     componentDidMount(){
         app.auth().onAuthStateChanged(user=>{
-            if(user){
-                Actions.EventScreen();
-            }
-            else {
-                Actions.LoginScreen();
-            }
+
+            setTimeout(() => {
+                if(user){
+                    Alert.alert('Status','You are logged in.')
+                    Actions.EventScreen();
+                }
+                else {
+                    Actions.JoinEventScreen();
+                }
+            }, 2000);
+            
         })
     }
+    
+    
     render(){
         return (
             <Container>

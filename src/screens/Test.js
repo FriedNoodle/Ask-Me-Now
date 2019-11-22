@@ -1,58 +1,57 @@
-import React, { Component } from 'react';
-import { Container, Content, Body, Text, Button, Form, Item, Input } from 'native-base'
-import { app } from '.././config/db';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow
+ */
 
+import React, { Component } from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  TouchableHighlight
+} from 'react-native';
+import Geocoder from 'react-native-geocoder-reborn';
+
+
+
+//Geocoder.setApiKey("AIzaSyBhXCRfaBvE7k6_-Aw5Jh5t0X9anNJxSdE");
 
 export default class Test extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            currentUser: null,
-            joinID:null
-        }
-        
-    }
+  constructor(){
+    super();
+    this.state = {
+        lat:null,
+        long:null
+    };        
+}
 
-    setJoinID = (value) =>{
-        this.setState({joinID:value});
-    }
-
-    render(){
-        return(
-            <Container>
-                <Content padder>
-                    <Form>
-                        <Item><Input placeholder='enter event ID here' onChangeText={this.setJoinID}></Input></Item>
-                        <Item><Text>{this.state.joinID}</Text></Item>
-                    </Form>
-                </Content>
-            </Container>
-        )
-    }
-    /**
-     * 
-     * componentDidMount(){
-        const { currentUser } = app.auth();
-        this.setState({ currentUser })
-    }
-
-    render(){
-        const { currentUser } = this.state;
-
-        return (
-            <Container>
-                <Content padder>
-                    <Body>
-                        <Text>Hi</Text>
-                        <Text>{currentUser && currentUser.email}!</Text>
-                        <Button onPress={()=>app.auth().signOut()}><Text>Sign out!</Text></Button>
-
-                    </Body>
-                </Content>
-            </Container>
-        )
-    }
-     */
-    
+  getLocation(){
+    Geocoder.geocodeAddress('Masjid Sultan Haji Ahmad Shah, IIUM').then(res => {
+      res.map((element)=>{
+        this.setState({
+          lat:element.position.lat,
+          long:element.position.lng
+        })
+      })
+      console.log(res);
+      // res is an Array of geocoding object (see below)
+  })
+  }
+  render(){
+    return(
+      <View>
+        <Text>{this.state.lat}</Text>
+        <Text>{this.state.long}</Text>
+        <TouchableHighlight onPress={()=>this.getLocation()}><Text>testa</Text></TouchableHighlight>
+       
+      </View>
+    )
+  }
 }
 

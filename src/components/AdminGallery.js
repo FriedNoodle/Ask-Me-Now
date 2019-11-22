@@ -12,18 +12,25 @@ const fs = RNFetchBlob.fs;
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob;
 
+
+
 let imageRef = db.ref('/gallery');
 
-export default class Gallery extends Component {
+
+export default class AdminGallery extends Component {
   constructor(props){
     super(props);
     this.state = {
       images : [],
       available: true,
       modalVisible: false,
-      eventID: this.props.eventID
+      eventID: this.props.eventID,
+      url:null,
+      imageType:null
     }
 
+    this.pickImage = this.pickImage.bind(this);
+    this.uploadImage = this.uploadImage.bind(this);
   }
 
   componentDidMount(){
@@ -33,7 +40,6 @@ export default class Gallery extends Component {
       if(data){
         let firebaseData = Object.values(data);
         this.setState({images: firebaseData});
-        console.log(this.state.images)
       }
       else{
         this.setState({
@@ -47,6 +53,53 @@ export default class Gallery extends Component {
     this.setState({modalVisible: visible})
   }
 
+  pickImage (){
+    ImagePicker.openPicker({
+      cropping:true
+    }).then(image=>{
+        this.setState({
+            url : image.path,
+            imageType : image.mime
+        }),
+
+        this.uploadImage();
+    }).catch((error)=>{
+        console.log(error)
+        })
+    }
+
+
+    uploadImage () {
+    
+        return new Promise((resolve,reject)=> {
+            let uploadBlob = null;
+            const appendIDToImage = new Date().getTime();
+            const imageRef = storage.ref('/gallery').child(`${appendIDToImage}`);
+        
+            fs.readFile(this.state.url, 'base64')
+            .then((data) => {
+                return Blob.build(data, { type: `${this.state.imageType};BASE64` })
+            })
+            .then((blob) => {
+                uploadBlob = blob
+                return imageRef.put(blob, { contentType: this.state.imageType })
+            })
+            .then(() => {
+                uploadBlob.close()
+                return imageRef.getDownloadURL()
+            })
+            .then((url) => {
+                resolve(url)
+                console.log(url)
+                db.ref('/gallery').child(this.state.eventID).push({
+                    url:url
+                })
+                })
+            .catch((error) => {
+                reject(error)
+            })      
+        })
+    }
   render() {
 
     return (
@@ -81,6 +134,17 @@ export default class Gallery extends Component {
         )}
       />
         </Content>
+        <Footer>
+          <FooterTab>
+            <Button onPress={this.pickImage}>
+
+            <Icon name="camera" />
+
+            <Text style={{color:'white'}}>Upload Image</Text>
+
+            </Button>
+          </FooterTab>
+        </Footer>
       </Container>
     );
   }

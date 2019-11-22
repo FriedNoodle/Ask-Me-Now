@@ -78,27 +78,28 @@ export default class AnswerScreen extends Component{
                     <Right />
                 </Header>
                 <Content padder>
-                    <Card>
+                    <Card style={{padding:5, borderRadius:10}}>
                         <CardItem>
                         <Left>
                             <Icon active name="chatbubbles"></Icon>
-                            <Text note>{this.state.question}</Text>
+                            <Text note style={{fontSize:14}} >{this.state.question}</Text>
                         </Left></CardItem>
                     </Card>
                    
                     <Form>
                         <Textarea rowSpan={5} bordered placeholder="Type your answer"
                             value={this.state.answer}
-                            onChangeText={this.setAnswer} />
+                            onChangeText={this.setAnswer}
+                            style={{fontSize:14, borderRadius:10}} />
                     </Form>
                     <Grid>
                         <Col size={40} style={{padding:5}}>
-                            <Button style={{marginTop: 10},{justifyContent:"center"}} onPress={this.saveAnswer}>
+                            <Button style={{marginTop: 10,justifyContent:"center",backgroundColor:'green'}} onPress={this.saveAnswer}>
                                 <Text style={{fontWeight: "bold"}}>Post</Text>
                             </Button>
                         </Col>
                         <Col size={40} style={{padding:5}}>
-                            <Button style={{marginTop: 10},{justifyContent:"center"}} onPress={()=> Actions.pop()}>
+                            <Button style={{marginTop: 10,justifyContent:"center",backgroundColor:'red'}} onPress={()=> Actions.pop()}>
                                 <Text style={{fontWeight: "bold"}}>Cancel</Text>
                             </Button>
                         </Col>
