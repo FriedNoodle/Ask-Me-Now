@@ -16,7 +16,7 @@ export default class Loading extends Component {
                 else {
                     Actions.JoinEventScreen();
                 }
-            }, 2000);
+            }, 1500);
             
         })
     }

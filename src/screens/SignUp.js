@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground, Alert } from 'react-native';
+import { ImageBackground, Alert, StatusBar } from 'react-native';
 import { Container, Header, Content, Label, Text, Left, Right, Title, Grid, Col, Row, Form, Item, Input, Button, Icon, Card } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { app, db } from '../config/db';
@@ -40,7 +40,9 @@ export default class SignUp extends Component {
     handleSignUp = () => {
             const { email,password } = this.state;
 
-            if(this.state.latitude && this.state.longitude){
+            if(this.state.email && this.state.password &&
+                this.state.mName && this.state.mAdd &&
+                 this.state.latitude && this.state.longitude){
             app
             .auth()
             .createUserWithEmailAndPassword(email,password)
@@ -67,10 +69,16 @@ export default class SignUp extends Component {
     
     render() {
         return (
-        <Container>
-            <Header></Header>
+        <Container style={{backgroundColor:'#a438b6'}}>
+            <StatusBar backgroundColor="#a438b6"/>
            
             <Content padder>
+                <Card transparent style={{padding:15}}>
+                <Text style={{textAlign:'center',
+                    color:'white', fontSize:20,
+                    fontWeight:'bold'}}>Create an Account</Text>
+                </Card>
+                
                 <Card style={{padding:15, borderRadius:10}}>
                 <Grid>
                 
@@ -98,7 +106,8 @@ export default class SignUp extends Component {
                                  multiline numberOfLines={4}
                                  onChangeText={(mAdd)=>this.setState({mAdd})} />
                     </Item>
-                    <Button transparent style={{marginTop: 10, alignSelf:'center'}} onPress={this.getLatLong} >
+                    <Button rounded style={{marginTop: 10,
+                            backgroundColor:'#1B6951', alignSelf:'center'}} onPress={this.getLatLong} >
 
                             <Text style={{fontWeight: "bold"}}>Sign Up</Text>
                             </Button>

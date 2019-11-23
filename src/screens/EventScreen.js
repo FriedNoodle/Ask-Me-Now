@@ -74,8 +74,8 @@ export default class EventScreen extends Component {
         content={<SideBar navigator={this.navigator} />}
         onClose={()=>this.closeDrawer()} >
       <Container>
-        <Header androidStatusBarColor="#2f8c9c"
-          style= {{backgroundColor:'#3297a8'}}>
+        <Header androidStatusBarColor="#A026B5"
+          style= {{backgroundColor:'#a438b6'}}>
         <Left>
         <Button transparent onPress={()=> this.openDrawer()}><Icon name="md-menu" style={{color:'white',marginRight:15}} /></Button>
         
@@ -95,7 +95,7 @@ export default class EventScreen extends Component {
             active={true}
             direction="up"
             containerStyle={{}}
-            style= {{backgroundColor:'#6200EE'}}
+            style= {{backgroundColor:'#1B6951'}}
             position="bottomRight"
             onPress={ ()=> {Actions.AddEventScreen();}}>
             <Icon name="calendar" />

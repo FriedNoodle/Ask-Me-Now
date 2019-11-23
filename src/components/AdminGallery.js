@@ -135,7 +135,7 @@ export default class AdminGallery extends Component {
       />
         </Content>
         <Footer>
-          <FooterTab>
+          <FooterTab style={{backgroundColor:'#1B6951'}}>
             <Button onPress={this.pickImage}>
 
             <Icon name="camera" />

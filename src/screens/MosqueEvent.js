@@ -37,8 +37,8 @@ export default class MosqueEvent extends Component {
         return(
             <Container>
                 <Header 
-                    androidStatusBarColor="#2f8c9c"
-                    style= {{backgroundColor:'#3297a8'}}>
+                    androidStatusBarColor="#A026B5"
+                    style= {{backgroundColor:'#a438b6'}}>
                     <Left>
                         <Button transparent onPress={()=> Actions.pop()}>
                             <Icon name='arrow-back' />

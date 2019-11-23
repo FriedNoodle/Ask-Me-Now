@@ -154,8 +154,8 @@ export default class JoinEventScreen extends Component {
     return (
       <Root>
         <Container>
-        <Header androidStatusBarColor="#2f8c9c"
-          style= {{backgroundColor:'#3297a8'}}>
+        <Header androidStatusBarColor="#A026B5"
+          style= {{backgroundColor:'#a438b6'}}>
         <Left />
         <Body>
           <Title style={{fontSize:16}}>Mosque near Me</Title>

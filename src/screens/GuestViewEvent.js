@@ -16,8 +16,8 @@ export default class GuestViewEvent extends Component {
             
                 <Container>
                     <Header 
-                    androidStatusBarColor="#2f8c9c"
-                    style= {{backgroundColor:'#3297a8'}}>
+                    androidStatusBarColor="#A026B5"
+                    style= {{backgroundColor:'#a438b6'}}>
                     <Left>
                         <Button transparent onPress={()=> Actions.pop()}>
                             <Icon name='arrow-back' />
@@ -29,14 +29,14 @@ export default class GuestViewEvent extends Component {
                     </Header>
                     <Tabs initialPage={
                         0} renderTabBar={()=> <ScrollableTab />}>
-                        <Tab heading={<TabHeading style= {{backgroundColor:'#3297a8'}}><Icon name="md-calendar"/><Text>Details</Text></TabHeading>}>
+                        <Tab heading={<TabHeading style= {{backgroundColor:'#a438b6'}}><Icon name="md-calendar"/><Text>Details</Text></TabHeading>}>
                             <ViewDetails eventID={eventID} />
                             
                         </Tab>
-                        <Tab heading={<TabHeading style= {{backgroundColor:'#3297a8'}}><Icon name="md-images"/><Text>Gallery</Text></TabHeading>}>
+                        <Tab heading={<TabHeading style= {{backgroundColor:'#a438b6'}}><Icon name="md-images"/><Text>Gallery</Text></TabHeading>}>
                             <Gallery eventID={eventID}/>
                         </Tab>
-                        <Tab heading={<TabHeading style= {{backgroundColor:'#3297a8'}}><Icon name="md-chatboxes"/><Text>Questions and Answers</Text></TabHeading>}>
+                        <Tab heading={<TabHeading style= {{backgroundColor:'#a438b6'}}><Icon name="md-chatboxes"/><Text>Questions and Answers</Text></TabHeading>}>
                             <GuestQuest eventID={eventID} eventName={eventName}/>
                         </Tab>
                     </Tabs>

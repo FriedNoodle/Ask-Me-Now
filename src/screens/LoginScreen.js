@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ImageBackground } from 'react-native';
+import { ImageBackground, StatusBar } from 'react-native';
 import { Container, Header, Content, Card, CardItem, Body, Text, Left, Right, Title, Grid, Col, Row, Form, Item, Input, Button, Icon, Label } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import { app } from '.././config/db';
@@ -33,9 +33,11 @@ export default class LoginScreen extends Component {
   render() {
     return (
       <Container>
-    
+        <StatusBar backgroundColor="#a438b6"/>
+
             <Grid>
-                <Row size={40}><ImageBackground source={require('../../images/sidebar-bg.jpg')} style={{width:'100%', height:'100%'}}></ImageBackground></Row>
+                <Row size={40}><ImageBackground source={require('../../images/logo-ask-me-now.png')} style={{width:'100%',
+                 height:'100%'}}></ImageBackground></Row>
                 <Row size={50}>
                     <Col size={10}></Col>
                     <Col size={80}><Form>
@@ -51,7 +53,8 @@ export default class LoginScreen extends Component {
                         <Input placeholder="Password" secureTextEntry={true}
                            onChangeText={password=> this.setState({password})}/>
                     </Item>
-                    <Button transparent style={{marginTop: 10, alignSelf:'center'}} onPress={this.handleLogin} >
+                    <Button rounded style={{marginTop: 10,
+                            backgroundColor:'#1B6951', alignSelf:'center'}} onPress={this.handleLogin} >
 
                             <Text style={{fontWeight: "bold"}}>Login</Text>
 

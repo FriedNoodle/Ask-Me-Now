@@ -30,8 +30,8 @@ export default class GuestScreen extends Component {
                 content={<GuestSideBar navigator={this.navigator} />}
                 onClose={()=>this.closeDrawer()} >
                 <Container>
-                    <Header androidStatusBarColor="#2f8c9c" 
-                        hasTabs style= {{backgroundColor:'#3297a8'}}>
+                    <Header androidStatusBarColor="#A026B5" 
+                        hasTabs style= {{backgroundColor:'#a438b6'}}>
                     <Left>
                         <Button transparent onPress={()=> this.openDrawer()}><Icon name="md-menu" style={{color:'white',marginRight:15}} /></Button>
                     </Left>
@@ -44,13 +44,13 @@ export default class GuestScreen extends Component {
                         initialPage={
                         0} renderTabBar={()=> <ScrollableTab />}>
 
-                        <Tab heading={<TabHeading style={{backgroundColor:'#3297a8'}}><Icon name="md-images"/><Text>Details</Text></TabHeading>}>
+                        <Tab heading={<TabHeading style={{backgroundColor:'#a438b6'}}><Icon name="md-calendar"/><Text>Details</Text></TabHeading>}>
                             <ViewDetails eventID={eventID}/>
                         </Tab>
-                        <Tab heading={<TabHeading style={{backgroundColor:'#3297a8'}}><Icon name="md-images"/><Text>Gallery</Text></TabHeading>}>
+                        <Tab heading={<TabHeading style={{backgroundColor:'#a438b6'}}><Icon name="md-images"/><Text>Gallery</Text></TabHeading>}>
                             <Gallery eventID={eventID}/>
                         </Tab>
-                        <Tab heading={<TabHeading style={{backgroundColor:'#3297a8'}}><Icon name="md-chatboxes"/><Text>Questions and Answers</Text></TabHeading>}>
+                        <Tab heading={<TabHeading style={{backgroundColor:'#a438b6'}}><Icon name="md-chatboxes"/><Text>Questions and Answers</Text></TabHeading>}>
                             <GuestQuestScreen eventID={eventID}/>
                         </Tab>                      
                     </Tabs>
@@ -59,7 +59,7 @@ export default class GuestScreen extends Component {
                         active={true}
                         direction="up"
                         containerStyle={{}}
-                        style= {{backgroundColor:'#6200EE'}}
+                        style= {{backgroundColor:'#1B6951'}}
                         position="bottomRight"
                         onPress={ ()=> {Actions.AddQuestion({eventID:eventID,eventName:eventName});}}>
                         <Icon name="md-chatbubbles" />

@@ -65,15 +65,15 @@ export default class AnswerScreen extends Component{
         return(
             <Container>
                 <Header 
-                    androidStatusBarColor="#2f8c9c"
-                    style= {{backgroundColor:'#3297a8'}}>
+                    androidStatusBarColor="#A026B5"
+                    style= {{backgroundColor:'#a438b6'}}>
                     <Left>
                         <Button transparent onPress={()=> Actions.pop()}>
                             <Icon name='arrow-back' />
                         </Button>
                     </Left>
                     <Body>
-                    <Title>Reply</Title>
+                    <Title style={{fontSize:14}}>Reply</Title>
                     </Body>
                     <Right />
                 </Header>
