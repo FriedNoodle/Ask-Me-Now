@@ -19,33 +19,38 @@ export default class SignUp extends Component {
             errorMessage:null
         }
         this.getLatLong = this.getLatLong.bind(this);
+        this.handleSignUp = this.handleSignUp.bind(this)
     }
 
     //Return lat and long from address and set profile
-    getLatLong(){
-        Geocoder.geocodeAddress(this.state.mAdd).then(res => {
-          res.map((element)=>{
-            this.setState({
-              latitude:element.position.lat,
-              longitude:element.position.lng
-            },
-            this.handleSignUp)
-          })
-      })
-      .catch(err=>console.log(err))
+    getLatLong = () => {
+
+        
+        if(this.state.email && this.state.password &&
+            this.state.mName && this.state.mAdd){
+                Geocoder.geocodeAddress(this.state.mAdd).then(res => {
+                    res.map((element)=>{
+                      this.setState({
+                        latitude:element.position.lat,
+                        longitude:element.position.lng
+                      },
+                      this.handleSignUp)
+                    })
+                })
+                .catch(err=>console.log(err))
+             }
+
+             else {
+                 Alert.alert('Status','Empty Field(s)!')
+             }
     }
 
    
 
     handleSignUp = () => {
-            const { email,password } = this.state;
-
-            if(this.state.email && this.state.password &&
-                this.state.mName && this.state.mAdd &&
-                 this.state.latitude && this.state.longitude){
-            app
-            .auth()
-            .createUserWithEmailAndPassword(email,password)
+            
+        app.auth()
+            .createUserWithEmailAndPassword(this.state.email,this.state.password)
                 .then((res)=>{
                     db.ref('users/' + res.user.uid).set({
                         userID:res.user.uid,
@@ -57,26 +62,26 @@ export default class SignUp extends Component {
                     })
                 })
                 .catch(error =>this.setState({errorMessage:error.message}))
-            }
-
-            else{
-                Alert.alert('Status', 'Empty Field(s)!')
+        const { email,password } = this.state;
+            
             }
             
-        }
          
         
     
     render() {
         return (
         <Container style={{backgroundColor:'#a438b6'}}>
-            <StatusBar backgroundColor="#a438b6"/>
-           
+            
+            <ImageBackground source={require('../../images/Abstract-bg.jpg')} style={{width:'100%', height:'100%'}}>
+            <StatusBar hidden={true}/>
             <Content padder>
+                
                 <Card transparent style={{padding:15}}>
                 <Text style={{textAlign:'center',
                     color:'white', fontSize:20,
-                    fontWeight:'bold'}}>Create an Account</Text>
+                    fontWeight:'bold', marginTop:20,
+                    textShadowColor:'black', textShadowRadius:5}}>Create an Account</Text>
                 </Card>
                 
                 <Card style={{padding:15, borderRadius:10}}>
@@ -131,7 +136,8 @@ export default class SignUp extends Component {
                 </Grid>
                 </Card>
             
-            </Content>   
+            </Content>
+            </ImageBackground>  
             
             
         </Container>
