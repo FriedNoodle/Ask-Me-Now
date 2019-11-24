@@ -213,7 +213,9 @@ export default class Profile extends Component {
                                     borderTopLeftRadius:10,borderTopRightRadius:10}}
                             />
 
-                            <Button block iconLeft onPress={this.pickImage}>
+                            <Button block iconLeft
+                            style= {{backgroundColor:'#1B6951'}} 
+                            onPress={this.pickImage}>
                                 <Icon name="md-image" />
                                 <Text style={{textAlign:'center'}}>Change Thumbnail</Text>
                             </Button>

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-native';
-import { Container, Content, Spinner, Text } from 'native-base'
+import { Alert, StatusBar, ImageBackground} from 'react-native';
+import { Container, Content, Spinner, Text, Grid, Col, Row } from 'native-base'
 import { app } from '.././config/db';
 import { Actions } from 'react-native-router-flux';
+import SplashScreen from 'react-native-splash-screen';
 
 export default class Loading extends Component {
+ 
     componentDidMount(){
+        SplashScreen.hide();
         app.auth().onAuthStateChanged(user=>{
 
             setTimeout(() => {
@@ -16,7 +19,7 @@ export default class Loading extends Component {
                 else {
                     Actions.JoinEventScreen();
                 }
-            }, 1500);
+            }, 10);
             
         })
     }
@@ -24,11 +27,17 @@ export default class Loading extends Component {
     
     render(){
         return (
-            <Container>
-                <Content padder>
-                <Text style={{alignSelf:'center'}}>Loading</Text>
-                <Spinner />
-                </Content>
+            <Container style={{backgroundColor:'#FFF'}}>
+                <StatusBar backgroundColor="#a438b6"/>
+                
+                <Grid>
+                    <Row size={30} backgroundColor={"#a438b6"}></Row>
+                    <Row size={40} backgroundColor={"#a438b6"}>
+                        <ImageBackground source={require('../../images/logo-ask-me-now.png')} style={{width:'100%',
+                         height:'100%'}}></ImageBackground></Row>
+                    <Row size={30} backgroundColor={"#a438b6"}>
+                     <Col style={{marginTop:-50}}><Spinner /></Col></Row>
+                </Grid>
                 
             </Container>
         )

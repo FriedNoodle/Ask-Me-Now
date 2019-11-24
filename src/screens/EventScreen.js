@@ -94,7 +94,7 @@ export default class EventScreen extends Component {
         <Fab
             active={true}
             direction="up"
-            containerStyle={{}}
+            
             style= {{backgroundColor:'#1B6951'}}
             position="bottomRight"
             onPress={ ()=> {Actions.AddEventScreen();}}>

@@ -166,7 +166,9 @@ export default class AddEventScreen extends Component {
                                     borderTopLeftRadius:10,borderTopRightRadius:10}}
                             />
 
-                            <Button block iconLeft onPress={this.pickImage}>
+                            <Button 
+                                style= {{backgroundColor:'#1B6951'}}
+                                block iconLeft onPress={this.pickImage}>
                                 <Icon name="md-image" />
                                 <Text style={{textAlign:'center'}}>Choose Thumbnail</Text>
                             </Button>
