@@ -206,7 +206,7 @@ export default class JoinEventScreen extends Component {
                   coordinate={{latitude:marker.latitude,longitude:marker.longitude}}
                   >
                     <MapView.Callout
-                      onPress={()=>Actions.MosqueEvent({userID:marker.userID,mosqueName:marker.name})}>
+                      onPress={()=>Actions.MosqueTab({userID:marker.userID,mosqueName:marker.name})}>
                       <Card style={{width:200}}>
                         <CardItem header style={{paddingBottom:-20}}><Text style={{fontSize:11, color:'blue'}}>{marker.name}</Text></CardItem>
                         <CardItem><Text style={{fontSize:11}}>Press to view events.</Text></CardItem>

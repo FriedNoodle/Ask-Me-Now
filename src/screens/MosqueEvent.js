@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Content, Header, Body, Text, Left, Icon, Button, Title } from 'native-base';
+import { Container, Content, Header, Body, Left, Icon, Button, Title } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import EventList from '../components/EventList';
 import { db } from '../config/db';
@@ -18,15 +18,6 @@ export default class MosqueEvent extends Component {
 
     componentDidMount(){
         this._isMounted = true;
-        let query = eventRef.orderByChild('userID').equalTo(this.props.userID)
-        query.on('value',(snapshot)=> {
-        let data = snapshot.val();
-        if(data){
-            let firebaseData = Object.values(data);
-            this.setState({events: firebaseData});
-            console.log(this.state.events);
-        }
-        });
     }
 
     componentWillUnmount(){
@@ -36,20 +27,8 @@ export default class MosqueEvent extends Component {
     render(){
         return(
             <Container>
-                <Header 
-                    androidStatusBarColor="#A026B5"
-                    style= {{backgroundColor:'#a438b6'}}>
-                    <Left>
-                        <Button transparent onPress={()=> Actions.pop()}>
-                            <Icon name='arrow-back' />
-                        </Button> 
-                    </Left>
-                    <Body>
-                        <Title style={{fontSize:14}}>{this.props.mosqueName}</Title>
-                    </Body>
-                </Header>
                 <Content padder>
-                <EventList events={this.state.events} onPress={(randID,name)=> {Actions.GuestViewEvent({randID:randID,eventName:name})}} />
+                <EventList events={this.props.events} onPress={(randID,name)=> {Actions.GuestViewEvent({randID:randID,eventName:name})}} />
                 </Content>
                 
             </Container>

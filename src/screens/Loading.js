@@ -14,7 +14,7 @@ export default class Loading extends Component {
             setTimeout(() => {
                 if(user){
                     Alert.alert('Status','You are logged in.')
-                    Actions.EventScreen();
+                    Actions.EventTabs();
                 }
                 else {
                     Actions.JoinEventScreen();

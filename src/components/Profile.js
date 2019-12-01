@@ -175,7 +175,7 @@ export default class Profile extends Component {
    
                 eventQuery.remove()
 
-                Actions.EventScreen();
+                Actions.EventTabs();
                     
                    
                 

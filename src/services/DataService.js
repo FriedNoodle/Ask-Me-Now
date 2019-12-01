@@ -21,7 +21,7 @@ export const addEvent = (name, randID, date, userID,speakerName,speakerProfile, 
         speakerProfile:speakerProfile,
         summary:summary
     }, ()=>
-    setTimeout(()=>(Actions.EventScreen(),Alert.alert('Success!','You have created an event.')),1500) );
+    setTimeout(()=>(Actions.EventTabs(),Alert.alert('Success!','You have created an event.')),1500) );
 }
 
 //**Function to update event details */
@@ -33,7 +33,7 @@ export const updateEvent = (name, randID, date,location,speakerName,speakerProfi
         speakerName:speakerName,
         speakerProfile:speakerProfile,
         summary:summary
-    }, ()=> Actions.EventScreen());
+    }, ()=> Actions.EventTabs());
 }
 
 //**Function to post answers by admin */

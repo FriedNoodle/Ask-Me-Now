@@ -53,7 +53,7 @@ export default class AddEventScreen extends Component {
     }
 
     setDate = (newDate) =>{
-        this.setState({ chosenDate: newDate});
+        this.setState({ date: newDate.toString().substr(4,12)});
     }
 
     setUserID = (value) =>{
@@ -206,8 +206,6 @@ export default class AddEventScreen extends Component {
                                         onDateChange={this.setDate}
                                         disabled={false}
                                         />
-
-                                    <Text style={{fontSize:14}}>{this.state.date}</Text>
 
                                 </Item>
                                 <Item style={{paddingBottom:5, paddingTop:5}}>
