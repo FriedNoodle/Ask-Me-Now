@@ -22,26 +22,29 @@ export default class QuestionScreen extends Component {
     }
     componentDidMount(){
         this._isMounted = true;
-        let query = questRef.orderByChild('eventUID').equalTo(this.props.eventID);
-        query.on('value', (snapshot) => {
-            let data = snapshot.val();
-            if(data){
-                let firebaseData = Object.values(data);
-                if(this._isMounted){
-                    this.setState({questions: firebaseData},()=>{
-                        this.state.questions.map((element)=>{
-                            this.setState({
-                                questID: element.questID,
-                                question: element.ques,
-                                eventUID: element.eventUID,
-                                answer: element.answer,
+        if(this._isMounted){
+            let query = questRef.orderByChild('eventUID').equalTo(this.props.eventID);
+            query.on('value', (snapshot) => {
+                let data = snapshot.val();
+                if(data){
+                    let firebaseData = Object.values(data);
+                    if(this._isMounted){
+                        this.setState({questions: firebaseData},()=>{
+                            this.state.questions.map((element)=>{
+                                this.setState({
+                                    questID: element.questID,
+                                    question: element.ques,
+                                    eventUID: element.eventUID,
+                                    answer: element.answer,
+                                });
                             });
                         });
-                    });
+                    }
+                    
                 }
-                
-            }
-        });
+            });
+        }
+       
     }
 
     componentWillUnmount(){

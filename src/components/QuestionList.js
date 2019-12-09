@@ -34,6 +34,7 @@ export default class QuestionList extends Component {
     }
 
     deleteQuestion(value){
+        
         Alert.alert('Warning',
             'Delete Question?',[
             {text: 'Yes', onPress: ()=> 
@@ -50,7 +51,8 @@ export default class QuestionList extends Component {
         ],
         {
             cancelable:false
-        })
+        }),
+        ()=> Actions.refresh();
         
     }
 

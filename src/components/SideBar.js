@@ -28,13 +28,11 @@ export default class SideBar extends Component {
                     <Text style={{color:'white',margin:50, }}>{currentUser && currentUser.email}</Text></ImageBackground></Row>
                   <Row size={50}>
                     <List>
-                    <ListItem style={{borderBottomWidth:0}}>
-  
-                        <Button block transparent onPress={()=>Actions.UserProfile()}><Icon name='md-person' /><Text>Profile</Text></Button>
-       
+                    <ListItem>
+                        <Button block transparent style={{width:'100%'}} onPress={()=>Actions.UserProfile()}><Icon name='md-person' /><Text>Profile</Text></Button>
                     </ListItem>
-                    <ListItem style={{borderBottomWidth:0}}>
-                    <Button block transparent onPress={()=>app.auth().signOut()}><Icon name='md-power' /><Text>Sign Out</Text></Button>
+                    <ListItem>
+                    <Button block transparent style={{width:'100%'}} onPress={()=>app.auth().signOut()}><Icon name='md-power' /><Text>Sign Out</Text></Button>
                     </ListItem>
                     </List>
                     

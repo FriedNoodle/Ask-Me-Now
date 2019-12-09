@@ -5,9 +5,10 @@ import { Actions } from 'react-native-router-flux';
 import { app } from '.././config/db';
 
 export default class LoginScreen extends Component {
+  _isMounted = false;
   constructor(props){
     super(props);
-    this._isMounted = false;
+    
     this.state = {
       email:'',
       password:'',
@@ -27,8 +28,15 @@ export default class LoginScreen extends Component {
     app
     .auth()
     .signInWithEmailAndPassword(email,password)
-    .then(()=> Actions.EventScreen())
-    .catch(error => this.setState({errorMessage:error.message}))
+    .then(()=> Actions.Loading())
+    .catch(error => {
+      if(this._isMounted){
+        this.setState({errorMessage:error.message})
+      }
+      
+    })
+    
+    
   }
   render() {
     return (

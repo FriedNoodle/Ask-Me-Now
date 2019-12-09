@@ -23,6 +23,7 @@ import AddQuestion from './src/screens/AddQuestion';
 import UserProfile from './src/screens/Profile';
 import MosqueTab from './src/screens/MosqueTab';
 import GuestViewEvent from './src/screens/GuestViewEvent';
+console.disableYellowBox = true;
 
 export default class App extends Component {
 

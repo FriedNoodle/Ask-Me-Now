@@ -50,9 +50,8 @@ export default class JoinEventScreen extends Component {
       mapRegion:null,
       initialLocation:null,
       gpsAccuracy:null,
-      tracksViewChanges:true,
+      tracksViewChanges:false,
       markers:[],
-      tracksViewChanges:true
     };
     
     
@@ -98,11 +97,16 @@ export default class JoinEventScreen extends Component {
   }
 
   //Map Marker Optimization. (Track changes to marker pins)
-  stopTrackingChanges = () => {
-    this.setState(()=> ({
-      tracksViewChanges:false
-    }));
-  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.coordinate !== this.props.coordinate // set true only when props changed
+        || prevProps.value !== this.props.value 
+        || prevProps.level !== this.props.level) {
+        this.setState({tracksViewChanges: true})
+    } else if (this.state.tracksViewChanges) {
+       // set to false immediately after rendering with tracksViewChanges is true
+        this.setState({tracksViewChanges: false})
+    }
+}
 
   onRegionChange = (region, gpsAccuracy)=>{
     this.setState({
@@ -150,7 +154,7 @@ export default class JoinEventScreen extends Component {
   }
 
   render() {
-    const { tracksViewChanges } = this.state;
+
     return (
       <Root>
         <Container>
@@ -204,6 +208,7 @@ export default class JoinEventScreen extends Component {
                 if(marker.latitude){
                   return (<MapView.Marker key={index}
                   coordinate={{latitude:marker.latitude,longitude:marker.longitude}}
+                  tracksViewChanges={this.state.tracksViewChanges}
                   >
                     <MapView.Callout
                       onPress={()=>Actions.MosqueTab({userID:marker.userID,mosqueName:marker.name})}>

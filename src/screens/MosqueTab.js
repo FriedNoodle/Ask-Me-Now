@@ -46,7 +46,7 @@ export default class MosqueTab extends Component {
       if(data){
         let firebaseData = Object.values(data);
         this.setState({events: firebaseData});
-        console.log(this.state.events);
+        //console.log(this.state.events);
       }
     });
   }
@@ -58,10 +58,11 @@ export default class MosqueTab extends Component {
   render() {
 
     const dateFilter = new Date();
-    console.log(dateFilter.toString().substr(4,12))
+    //console.log(dateFilter.toString().substr(4,12))
     const pastEvent = this.state.events.filter(data => new Date(data.date)  < dateFilter)
     const futureEvent = this.state.events.filter(data => new Date(data.date) > dateFilter)
     const currentEvent = this.state.events.filter(data => data.date === dateFilter.toString().substr(4,12))
+    console.log(futureEvent)
 
     return (
 
