@@ -16,7 +16,7 @@
     "mem": "^6.0.0",
     "native-base": "^2.13.8",
     "react": "16.8.1",
-    "react-native": "0.61.1",
+    "react-native": "0.62.3",
     "react-native-geocoder-reborn": "^0.8.3",
     "react-native-image-crop-picker": "^0.26.1",
     "react-native-image-zoom-viewer": "^2.2.27",
